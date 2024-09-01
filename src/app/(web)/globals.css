@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.img {
+  @apply object-cover w-full h-full;
+}
+
+.btn-primary {
+  @apply bg-orange-400 w-[150px] font-medium h-[44px] rounded-sm border-none shadow-sm  text-white;
+}
+
+.btn-tertiary {
+  @apply px-6 md:px-[47px] lg:px-[60px] py-2 bg-orange-400 rounded-md shadow-sm shadow-tertiary-light text-white font-bold text-base;
+}
+
+.font-heading {
+  @apply font-medium md:font-semibold md:text-2xl text-lg;
+}
+
+.font-normal {
+  @apply text-sm md:text-base;
+}

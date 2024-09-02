@@ -3,6 +3,7 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ImSpinner9 } from "react-icons/im";
 
 type Props = {
   checkinDate: Date | null;
@@ -18,6 +19,7 @@ type Props = {
   noOfChildren: number;
   specialNote: string;
   isBooked: boolean;
+  bookingIsLoading: boolean;
   handleBookNowClick: () => void;
 };
 
@@ -36,6 +38,7 @@ const BookRoomCta: FC<Props> = (props) => {
     adults,
     noOfChildren,
     isBooked,
+    bookingIsLoading,
     handleBookNowClick,
   } = props;
 
@@ -151,11 +154,19 @@ const BookRoomCta: FC<Props> = (props) => {
       )}
 
       <button
-        disabled={isBooked || !checkinDate || !checkoutDate}
+        disabled={isBooked || !checkinDate || !checkoutDate || bookingIsLoading}
         onClick={handleBookNowClick}
-        className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
+        className="buttonComp btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
       >
-        {isBooked ? "Booked" : "Book Now"}
+        {bookingIsLoading ? (
+          <span className="loader">
+            <ImSpinner9 className="loader" size={25} />
+          </span>
+        ) : isBooked ? (
+          "Booked"
+        ) : (
+          "Book Now"
+        )}
       </button>
     </div>
   );

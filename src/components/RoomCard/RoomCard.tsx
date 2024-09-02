@@ -14,8 +14,8 @@ const RoomCard: FC<Props> = (props) => {
   } = props;
 
   return (
-    <div className="rounded w-80 h-[450px] mb-10 mx-auto md:mx-0 overflow-hidden text-black">
-      <div className="h-60 overflow-hidden">
+    <div className="rounded w-80 h-[450px] rounded-b-md  mb-10 mx-auto md:mx-0 overflow-hidden text-black">
+      <div className="h-60 overflow-hidden rounded-md">
         <Image
           src={coverImage.url}
           alt={name}

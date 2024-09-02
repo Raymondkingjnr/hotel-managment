@@ -22,6 +22,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
   const [checkinDate, setCheckinDate] = useState<Date | null>(null);
   const [checkoutDate, setCheckoutDate] = useState<Date | null>(null);
   const [adults, setAdults] = useState(1);
+  const [bookingIsLoading, setBookingIsLoading] = useState(false);
   const [NoOfchildren, setNoOfChildren] = useState(0);
 
   const fetchRoom = async () => getRoom(slug);
@@ -63,6 +64,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
     const hotelRoomSlug = data.slug.current;
     const stripe = await getStripe();
 
+    setBookingIsLoading(true);
     try {
       const { data: stripeSession } = await axios.post("/api/stripe", {
         checkinDate,
@@ -84,15 +86,17 @@ const RoomDetails = (props: { params: { slug: string } }) => {
     } catch (error) {
       console.log("error", error);
       toast.error("An error occured, check if you are logged in.");
+    } finally {
+      setBookingIsLoading(false);
     }
   };
 
   return (
-    <div className=" container mx-auto">
+    <div className=" container mx-auto px-4">
       <HotelGallary photos={data.images} />
       <div className=" mt-20">
-        <div className=" md:grid md:grid-cols-12 gap-10 px-2">
-          <div className="md:col-span-8 md:w-full">
+        <div className=" lg:grid lg:grid-cols-12 gap-x-10 gap-y-16 px-2">
+          <div className="lg:col-span-8 lg:w-full">
             <div>
               <h2 className="font-bold text-left text-lg">
                 {data.name} ({data.dimension})
@@ -166,7 +170,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
               </div>
             </div>
           </div>
-          <div className=" md:col-span-4 rounded-md shadow-md py-24 dark:shadow dark:shadow-white sticky top-10 h-fit overflow-auto">
+          <div className=" lg:col-span-4 mt-10 lg:mt-0 rounded-md shadow-md dark:shadow dark:shadow-white h-fit overflow-y-auto">
             <BookRoomCTA
               discount={data.discount}
               price={data.price}
@@ -182,6 +186,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
               setNoOfChildren={setNoOfChildren}
               isBooked={data.isBooked}
               handleBookNowClick={handleBookNow}
+              bookingIsLoading={bookingIsLoading}
             />
           </div>
         </div>

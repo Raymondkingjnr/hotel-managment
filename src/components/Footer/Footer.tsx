@@ -4,10 +4,10 @@ import { BiMessageDetail } from "react-icons/bi";
 
 const Footer = () => {
   return (
-    <footer className="mt-16 pb-1">
+    <footer className="mt-16 pb-1 px-4">
       <div className="container mx-auto px-4">
         <Link href="/" className="font-black text-tertiary-dark">
-          Hotelzz
+          FABS PALACE
         </Link>
 
         <h4 className="font-semibold text-[12px] py-2">Contact</h4>

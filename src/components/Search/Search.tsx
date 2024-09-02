@@ -29,7 +29,7 @@ const Search: FC<Props> = ({
   };
 
   return (
-    <section className="  px-4 py-2 md:py-4 mx-4 rounded-md my-10 bg-orange-200">
+    <section className=" px-4 py-2 md:py-4 mx-5 rounded-md my-10 bg-orange-200">
       <div className="container mx-auto flex gap-4 flex-wrap justify-between items-center">
         <div className=" w-full md:1/3 lg:w-auto mb-4 md:mb-0">
           <label className=" block text-base font-semibold mb-2 text-black">

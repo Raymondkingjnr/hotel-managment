@@ -7,6 +7,8 @@ import { signUp } from "next-auth-sanity/client";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const defaultFormData = {
   email: "",
@@ -17,6 +19,8 @@ const defaultFormData = {
 const Auth = () => {
   const { push } = useRouter();
   const [formData, setFormData] = useState(defaultFormData);
+  const [signUpIsLoading, setSIgnUpIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,22 +48,25 @@ const Auth = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSIgnUpIsLoading(true);
 
     try {
       const user = await signUp(formData);
       if (user) {
         toast.success("sucess, Please Sign in");
+        // loginHandler();
       }
     } catch (error) {
       console.log(error);
       toast.error("something went wrong");
     } finally {
       setFormData(defaultFormData);
+      setSIgnUpIsLoading(false);
     }
   };
 
   const inputStyles =
-    " border border-gray-300 text-[15px] sm:text-xs text-black outline-none w-full px-1 h-[45px] rounded block";
+    " border border-gray-300 text-[15px] sm:text-md font-semibold text-black outline-none w-full px-1 h-[45px] rounded block";
   return (
     <section className=" ">
       <div className="space-y-4 py-10 px-6 w-full md:w-[40%] mx-auto">
@@ -101,22 +108,40 @@ const Auth = () => {
             value={formData.name}
             onChange={handleInputChange}
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-            minLength={6}
-            className={inputStyles}
-            value={formData.password}
-            onChange={handleInputChange}
-          />
+          <div className=" Inputabsolute">
+            <input
+              type={showPassword ? "password" : "text"}
+              name="password"
+              placeholder="Password"
+              required
+              minLength={6}
+              className={inputStyles}
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+            <button
+              className="password"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? (
+                <FaEye size={20} color="#000" />
+              ) : (
+                <FaEyeSlash size={20} color="#000" />
+              )}
+            </button>
+          </div>
 
           <button
             type="submit"
-            className="w-full bg-tertiary-dark focus:outline-none font-medium rounded text-sm px-5 py-2.5 text-center"
+            className="buttonComp w-full bg-tertiary-dark focus:outline-none font-medium rounded text-sm px-5 py-2.5 text-center"
           >
-            Sign Up
+            {signUpIsLoading ? (
+              <span className="loader">
+                <ImSpinner9 className="loader" size={25} />
+              </span>
+            ) : (
+              "  Sign Up"
+            )}
           </button>
         </form>
 

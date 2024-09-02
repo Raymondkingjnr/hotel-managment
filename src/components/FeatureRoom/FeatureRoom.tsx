@@ -11,7 +11,7 @@ const FeatureRoom: FC<Props> = (props) => {
   const { featuredRoom } = props;
 
   return (
-    <section className=" flex md:flex-row flex-col px-4 py-10 items-center gap-12 container mx-auto">
+    <section className=" flex md:flex-row flex-col px-4 py-20 gap-12 container mx-auto">
       <div className=" md:grid gap-6 grid-cols-1">
         <div className=" rounded-md overflow-hidden h-56 mb-4 md:mb-0">
           <Image
@@ -38,7 +38,7 @@ const FeatureRoom: FC<Props> = (props) => {
         </div>
       </div>
 
-      <div className=" md:py-10 md:w-1/2 text-left">
+      <div className="md:w-1/2 text-left">
         <h3 className=" font-heading mb-5">Featured Room</h3>
         <p className=" font-normal max-w-md">{featuredRoom.description}</p>
         <div className=" flex flex-col md:flex-row md:items-end justify-between mt-5">

@@ -2,16 +2,29 @@
 
 import Link from "next/link";
 import { useContext } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaUserCheck } from "react-icons/fa";
 import { MdDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { useSession } from "next-auth/react";
-
+import { User } from "@/app/models/user";
+import axios from "axios";
 import ThemeContext from "@/context/themeContext";
 import Image from "next/image";
 import { logo } from "@/asset";
+import useSWR from "swr";
 
 const Header = () => {
   const { darkTheme, setDarkTheme } = useContext(ThemeContext);
+
+  const fetchUserData = async () => {
+    const { data } = await axios.get<User>("/api/users");
+    return data;
+  };
+
+  const {
+    data: userData,
+    isLoading: loadinguserData,
+    error: errorUser,
+  } = useSWR("/api/users", fetchUserData);
 
   const { data: session } = useSession();
 
@@ -22,7 +35,7 @@ const Header = () => {
           <Image src={logo} alt="" width={40} height={40} />
           FABS PALACE
         </Link>
-        <ul className="flex items-center ml-5">
+        <ul className="flex gap-2 items-center ml-5">
           <li className="flex items-center">
             {session?.user ? (
               <Link href={`/users/${session.user.id}`}>
@@ -37,7 +50,11 @@ const Header = () => {
                     />
                   </div>
                 ) : (
-                  <FaUserCircle className="cursor-pointer" />
+                  <div className=" grid place-content-center h-5 w-5 rounded-full p-3 bg-black dark:bg-white">
+                    <span className=" uppercase font-bold text-base text-gray-50 dark:text-gray-950">
+                      {userData?.name.slice(0, 1)}
+                    </span>
+                  </div>
                 )}
               </Link>
             ) : (
@@ -50,6 +67,7 @@ const Header = () => {
           <li className="ml-2">
             {darkTheme ? (
               <MdOutlineLightMode
+                size={21}
                 className="cursor-pointer"
                 onClick={() => {
                   setDarkTheme(false);
@@ -58,6 +76,7 @@ const Header = () => {
               />
             ) : (
               <MdDarkMode
+                size={21}
                 className="cursor-pointer"
                 onClick={() => {
                   setDarkTheme(true);

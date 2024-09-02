@@ -37,7 +37,7 @@ export default function RootLayout({
         <NextAuthProvider>
           <ThemeProvider>
             <Toast />
-            <main className=" max-w-[1500px] m-auto">
+            <main className=" h-[100%] max-w-[1500px] m-auto">
               <Header />
               {children}
               <Footer />
